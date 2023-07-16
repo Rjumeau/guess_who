@@ -12,6 +12,9 @@ User.destroy_all
 puts "Delete Personas..."
 Persona.destroy_all
 
+puts "Create Users..."
+User.create!(email: 'rojumeau@gmail.com', password: 'roadtoteacher')
+
 puts "Create Personas..."
 # Import and create Personas
 persona_csv_file_path = Rails.root.join('db/data/persona_data.csv')

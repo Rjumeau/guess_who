@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_16_170710) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_16_173316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_170710) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "games", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "user_persona_id"
+    t.integer "computer_persona_id"
+    t.integer "winner"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_games_on_user_id"
+  end
+
   create_table "personas", force: :cascade do |t|
     t.string "name"
     t.string "gender"
@@ -61,6 +71,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_170710) do
     t.string "picture"
   end
 
+  create_table "rounds", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.string "user_feature"
+    t.string "user_adjective"
+    t.string "computer_feature"
+    t.string "computer_adjective"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_rounds_on_game_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -75,4 +97,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_170710) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "games", "users"
+  add_foreign_key "rounds", "games"
 end
