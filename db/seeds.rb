@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+puts "Delete Users..."
+User.destroy_all
+
+puts "Delete Personas..."
+Persona.destroy_all
+
+puts "Create Personas..."
+# Import and create Personas
+persona_csv_file_path = Rails.root.join('db/data/persona_data.csv')
+PersonaImportService.call(persona_csv_file_path)
+
+puts "Done !"
