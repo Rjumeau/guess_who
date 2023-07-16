@@ -1,0 +1,18 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 d-flex flex-column justify-content-center align-items-center">
+      <div class="text-center">
+        <h1>Ready for a game ?</h1>
+        <p>Choose your persona</p>
+      </div>
+      <section>
+        <%= simple_form_for @game, html: { class: "d-flex flex-column justify-content-center align-items-center" } do |f| %>
+          <%= render("persona_list", f: f)%>
+          <div class="form-actions mt-4">
+            <%= f.button :submit, "Start the game", class:"btn btn-secondary w-100 text-white" %>
+          </div>
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>

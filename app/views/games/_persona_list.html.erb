@@ -1,0 +1,13 @@
+<div class="row w-40">
+  <%= f.collection_radio_buttons :user_persona_id,
+                                  @all_personas,
+                                  :id,
+                                  :picture,
+                                  item_wrapper_tag: 'article',
+                                  item_wrapper_class: 'col-3 my-1' do |b| %>
+    <%= b.label class: 'p-0' do %>
+      <%= b.radio_button(class: "sr-only persona-input") %>
+      <%= image_tag(b.text, class: "persona-picture")  %>
+    <% end %>
+  <% end %>
+</div>

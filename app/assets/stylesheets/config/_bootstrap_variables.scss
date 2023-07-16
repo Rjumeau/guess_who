@@ -7,12 +7,14 @@
 // General style
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
-$body-bg:                $light-gray;
+$body-bg:                $primary-blue;
+$body-color:             $white;
 $font-size-base:         1rem;
 
 // Colors
 $body-color: $gray;
-$primary:    $blue;
+$primary:    $primary-blue;
+$secondary:  $secondary-yellow;
 $success:    $green;
 $info:       $yellow;
 $danger:     $red;

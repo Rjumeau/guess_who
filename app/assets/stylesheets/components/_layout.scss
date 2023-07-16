@@ -1,0 +1,16 @@
+@for $i from 0 through 100 {
+  .w-#{$i} {
+    width: percentage($i / 100);
+  }
+}
+
+@for $i from 0 through 100 {
+  .h-#{$i} {
+    height: percentage($i / 100);
+  }
+}
+
+
+body {
+  color: white;
+}
