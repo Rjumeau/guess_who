@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root to: "games#new"
 
   resources :games, only: %i[create] do
-    resources :rounds, only: %i[new create]
+    resources :rounds, only: %i[new create] do
+      get 'adjectives', on: :collection
+    end
   end
 end

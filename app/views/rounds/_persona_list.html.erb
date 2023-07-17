@@ -1,0 +1,7 @@
+<section class="row w-80 mt-3">
+  <% personas.each do |persona| %>
+    <article class="col-3">
+      <%= image_tag(persona.picture, class: 'persona-picture-no-hover') %>
+    </article>
+  <% end %>
+</section>

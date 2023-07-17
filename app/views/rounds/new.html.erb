@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-6 d-flex flex-column align-items-center">
+      <h2 class="text-center">Your grid</h2>
+      <%= render "persona_list", personas: @all_personas %>
+    </div>
+    <div class="col-6 d-flex flex-column align-items-center">
+      <h2 class="text-center">Computer grid</h2>
+      <%= render "persona_list", personas: @all_personas %>
+    </div>
+  </div>
+  <div class="row mt-4 justify-content-center">
+    <div class="w-30">
+      <%= simple_form_for [@game, @round], html:
+                                            { data:
+                                              { controller: "update-user-adjective",
+                                                update_user_adjective_url_value: adjectives_game_rounds_path(@game) }
+                                            } do |f| %>
+        <%= f.input :user_feature,
+                    as: :select,
+                    label: "Persona characteristic",
+                    input_html: { data: { action: "change->update-user-adjective#getUserFeature"}},
+                    collection: @personas_characteristics.keys %>
+        <%= f.input :user_adjective,
+                    as: :select,
+                    label: "Persona adjective",
+                    input_html: { data: { update_user_adjective_target: "adjectiveList"}},
+                    collection: [] %>
+        <div class="form-actions d-flex justify-content-center">
+          <%= f.button :submit, "Confirm your choice", class: "btn btn-secondary text-white" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

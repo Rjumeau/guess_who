@@ -5,14 +5,7 @@
         <h1>Ready for a game ?</h1>
         <p>Choose your persona</p>
       </div>
-      <section>
-        <%= simple_form_for @game, html: { class: "d-flex flex-column justify-content-center align-items-center" } do |f| %>
-          <%= render("persona_list", f: f)%>
-          <div class="form-actions mt-4">
-            <%= f.button :submit, "Start the game", class:"btn btn-secondary w-100 text-white" %>
-          </div>
-        <% end %>
-      </section>
+      <%= render 'persona_choice', game: @game, personas: @all_personas  %>
     </div>
   </div>
 </div>

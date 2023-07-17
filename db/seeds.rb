@@ -1,9 +1,10 @@
 # ------ Clean Db -----
-puts "Delete Users..."
-User.destroy_all
+models = [Round, Game, Persona, User]
 
-puts "Delete Personas..."
-Persona.destroy_all
+models.each do |model|
+  puts "Destroy #{model}s..."
+  model.delete_all
+end
 
 # ----- Add records -----
 puts "Create Users..."

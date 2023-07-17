@@ -1,8 +1,4 @@
 class GamesController < ApplicationController
-  def index
-    raise
-  end
-
   def new
     @game = Game.new
     @all_personas = Persona.all

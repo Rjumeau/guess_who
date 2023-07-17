@@ -3,8 +3,33 @@ class Persona < ApplicationRecord
 
   before_validation :capitalize_attributes
 
+  EXCLUDED_ATTRIBUTES = %w[id created_at updated_at picture name].freeze
+
   def self.sample_computer_persona(user_persona)
     all.reject { |persona| persona == user_persona }.sample
+  end
+
+  # Store valid feature/adjective couples in a hash to display it in select input
+  def self.list_personas_characteristics
+    usable_features = list_features
+
+    personas_hash = {}
+
+    usable_features.each do |feature|
+      personas_hash[feature] = list_feature_adjectives(feature)
+    end
+
+    personas_hash.transform_keys!(&:humanize)
+  end
+
+  def self.list_features
+    attribute_names.reject do |attr_name|
+      EXCLUDED_ATTRIBUTES.include?(attr_name)
+    end
+  end
+
+  def self.list_feature_adjectives(feature)
+    pluck(feature).uniq.compact.map(&:humanize)
   end
 
   private

@@ -1,11 +1,14 @@
 .persona-picture {
-  height: 75px;
-  width: 75px;
+  @include persona-size;
   cursor: pointer;
 
   &:hover {
     @include border-yellow
   }
+}
+
+.persona-picture-no-hover {
+  @include persona-size
 }
 
 .persona-input:checked + img {
