@@ -20,7 +20,8 @@
                     as: :select,
                     label: "Persona characteristic",
                     input_html: { data: { action: "change->update-user-adjective#getUserFeature"}},
-                    collection: @personas_characteristics.keys %>
+                    collection: @personas_characteristics.keys,
+                    label_method: lambda {|feature| feature.humanize}%>
         <%= f.input :user_adjective,
                     as: :select,
                     label: "Persona adjective",

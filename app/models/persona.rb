@@ -9,6 +9,14 @@ class Persona < ApplicationRecord
     all.reject { |persona| persona == user_persona }.sample
   end
 
+  def self.computer_selection(personas)
+  end
+
+  def self.find_feature_adjectives(feature)
+    personas_characteristics = list_personas_characteristics
+    personas_characteristics[feature]
+  end
+
   # Store valid feature/adjective couples in a hash to display it in select input
   def self.list_personas_characteristics
     usable_features = list_features
@@ -19,7 +27,7 @@ class Persona < ApplicationRecord
       personas_hash[feature] = list_feature_adjectives(feature)
     end
 
-    personas_hash.transform_keys!(&:humanize)
+    personas_hash
   end
 
   def self.list_features
