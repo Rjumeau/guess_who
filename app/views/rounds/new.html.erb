@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-6 d-flex flex-column align-items-center">
       <h2 class="text-center">Your grid</h2>
-      <%= render "persona_list", personas: @personas %>
+      <%= render "persona_list", personas: @user_personas %>
     </div>
     <div class="col-6 d-flex flex-column align-items-center">
       <h2 class="text-center">Computer grid</h2>
-      <%= render "persona_list", personas: @personas %>
+      <%= render "persona_list", personas: @computer_personas %>
     </div>
   </div>
   <div class="row mt-4 justify-content-center">
@@ -29,7 +29,8 @@
                     input_html: { data: { update_user_adjective_target: "adjectiveList" }},
                     collection: [],
                     include_blank: false %>
-        <%= f.hidden_field :remaining_personas, value: @personas %>
+        <%= f.hidden_field :remaining_user_personas, value: @user_personas.to_json %>
+        <%= f.hidden_field :remaining_computer_personas, value: @computer_personas.to_json %>
         <div class="form-actions d-flex justify-content-center">
           <%= f.button :submit, "Confirm your choice", class: "btn btn-secondary text-white" %>
         </div>
