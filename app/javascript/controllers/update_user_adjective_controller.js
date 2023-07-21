@@ -20,10 +20,14 @@ export default class extends Controller {
     }
 
     adjectives.forEach(adjective => {
-      const option = document.createElement('option');
-      option.value = adjective;
-      option.textContent = adjective;
-      adjectiveListElement.appendChild(option);
+      this.addAdjective(adjective, adjectiveListElement)
     });
+  }
+
+  addAdjective(adjective, adjectiveListElement) {
+    const option = document.createElement('option');
+    option.value = adjective;
+    option.textContent = adjective;
+    adjectiveListElement.appendChild(option);
   }
 }

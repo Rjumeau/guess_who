@@ -24,6 +24,7 @@ class PersonaImportService < ApplicationService
       gender: row[:gender],
       hat_color: row[:hat_color],
       hair_color: row[:hair_color],
+      hair_length: row[:hair_length],
       eyes: row[:eyes],
       nose: row[:nose],
       mustache: row[:mustache],

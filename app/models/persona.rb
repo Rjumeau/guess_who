@@ -37,7 +37,8 @@ class Persona < ApplicationRecord
   end
 
   def self.list_feature_adjectives(feature)
-    pluck(feature).uniq.compact.map(&:humanize)
+    adjectives_list = pluck(feature).uniq.compact.map(&:humanize)
+    adjectives_list.reject { |adjective| adjective == 'Missing' }
   end
 
   private
