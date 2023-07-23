@@ -41,6 +41,10 @@ class Persona < ApplicationRecord
     adjectives_list.reject { |adjective| adjective == 'Missing' }
   end
 
+  def self.find_and_sort_by_ids(personas_ids)
+    Persona.where(id: personas_ids).sort_by { |persona| personas_ids.index(persona.id) }
+  end
+
   private
 
   def capitalize_attributes

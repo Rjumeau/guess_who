@@ -1,7 +1,11 @@
 <section class="row w-80 mt-3">
-  <% personas.each do |persona| %>
+  <% all_personas.each do |persona| %>
     <article class="col-3">
-      <%= image_tag(persona.picture, class: 'persona-picture-no-hover') %>
+      <% if player_personas.include?(persona) %>
+        <%= image_tag(persona.picture, class: 'persona-picture-no-hover') %>
+      <% else %>
+        <%= image_tag(persona.picture, class: 'persona-picture-no-hover grey-overlay') %>
+      <% end %>
     </article>
   <% end %>
 </section>

@@ -14,3 +14,7 @@
 .persona-input:checked + img {
   @include border-yellow
 }
+
+.grey-overlay {
+  filter: grayscale(80%)
+}

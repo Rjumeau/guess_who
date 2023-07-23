@@ -14,4 +14,8 @@ class Game < ApplicationRecord
   def last_round_position
     rounds.last&.position || 0
   end
+
+  def last_round_personas_list(attribute_name)
+    rounds.last&.send(attribute_name)
+  end
 end
