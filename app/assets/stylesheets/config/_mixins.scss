@@ -6,3 +6,8 @@
   height: 75px;
   width: 75px;
 }
+
+@mixin guess {
+  padding: 0.5rem;
+  color: black;
+}

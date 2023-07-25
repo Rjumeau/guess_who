@@ -1,0 +1,9 @@
+.good-guess {
+  @include guess;
+  background-color: $light-green
+}
+
+.bad-guess {
+  @include guess;
+  background-color: $light-red;
+}

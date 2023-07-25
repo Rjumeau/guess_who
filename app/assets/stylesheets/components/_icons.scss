@@ -1,0 +1,12 @@
+.fa-circle-arrow-down {
+  font-size: 2rem;
+  color: $secondary-yellow;
+  position: relative;
+  animation: arrowAnimation 1.5s infinite;
+}
+
+
+@keyframes arrowAnimation {
+  0%, 100% { top: 0};
+  50% { top: 20px; }
+}

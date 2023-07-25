@@ -15,9 +15,17 @@ class GamesController < ApplicationController
     end
   end
 
+  def update
+    @game = Game.find(params[:id])
+    if params[:user_guess] && @game.good_user_guess?(game_params[:user_guess])
+      flash[:notice] = "Congratulations ! You won !\n Computer persona was #{@game.computer_persona}"
+    end
+    redirect_to new_game_round_path(@game)
+  end
+
   private
 
   def game_params
-    params.require(:game).permit(:user_persona_id)
+    params.require(:game).permit(:user_persona_id, :user_guess)
   end
 end

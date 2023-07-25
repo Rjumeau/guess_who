@@ -1,0 +1,14 @@
+<%= simple_form_for game, method: :patch, html: {
+                                                  class: "d-none",
+                                                  data: { toggle_winning_form_target: 'winningForm'}
+                                                } do |f| %>
+    <%= f.input :user_guess,
+                label: 'Choose a persona',
+                as: :select,
+                collection: computer_personas,
+                include_blank: false,
+                value_method: :name %>
+    <div class="form-actions d-flex justify-content-center">
+      <%= f.button :submit, 'Guess', class: 'btn btn-secondary text-white mx-auto' %>
+    </div>
+<% end %>

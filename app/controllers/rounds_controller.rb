@@ -2,13 +2,10 @@ class RoundsController < ApplicationController
   def new
     @round = Round.new
     @game = Game.find(params[:game_id])
-    if @game.last_round_personas_list(:remaining_user_personas)
-      @user_personas = @round.find_remaining_personas_list(@game, :remaining_user_personas)
-    else
-      @user_personas = Persona.all
-    end
-    @computer_personas = Persona.all
     @all_personas = Persona.all
+    @previous_round = @game.rounds.last
+    @computer_personas = @game.find_remaining_computer_personas_list(:remaining_computer_personas)
+    @user_personas = @game.find_remaining_user_personas_list(:remaining_user_personas)
     @personas_characteristics = Persona.list_personas_characteristics
   end
 
@@ -22,10 +19,9 @@ class RoundsController < ApplicationController
     @round = Round.new(round_params)
     @round.game = @game
     @round.position = @game.last_round_position + 1
-    # Renvoyer une collection de Persona selon la user_feature et le user_adjective
-    @round.create_remaining_personas_list(@game, round_params)
-    # Sélectionner une computer_feature et computer_adjective selon la collection restante pour le user
-    # Renvoyer une collection de Persona selon la computer_feature et le computer_adjective
+    @round.computer_choice
+    @round.create_computer_remaining_personas_list(round_params)
+    @round.create_user_remaining_personas_list(@round.computer_feature, @round.computer_adjective)
     if @round.save
       redirect_to new_game_round_path(@game)
     else

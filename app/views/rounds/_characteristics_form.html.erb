@@ -1,0 +1,22 @@
+<%= simple_form_for [game, round], html:
+                                      { data:
+                                        { controller: "update-user-adjective",
+                                          update_user_adjective_url_value: adjectives_game_rounds_path(game) }
+                                      } do |f| %>
+  <%= f.input :user_feature,
+              as: :select,
+              label: "Persona characteristic",
+              input_html: { data: { action: "change->update-user-adjective#getUserFeature "}},
+              collection: personas_characteristics.keys,
+              include_blank: false,
+              label_method: lambda {|feature| feature.humanize}%>
+  <%= f.input :user_adjective,
+              as: :select,
+              label: "Persona adjective",
+              input_html: { data: { update_user_adjective_target: "adjectiveList" }},
+              collection: [],
+              include_blank: false %>
+  <div class="form-actions d-flex justify-content-center">
+    <%= f.button :submit, "Confirm your choice", class: "btn btn-secondary text-white" %>
+  </div>
+<% end %>

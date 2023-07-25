@@ -1,38 +1,46 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-6 d-flex flex-column align-items-center">
-      <h2 class="text-center">Your grid</h2>
+<div class="my-5">
+  <div class="row justify-content-around">
+    <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-center">
+        <h2>You</h2>
+        <%= image_tag @game.user_persona.picture, class: 'persona-picture-no-hover rounded mx-4' %>
+      </div>
       <%= render "persona_list", all_personas: @all_personas, player_personas: @user_personas %>
     </div>
-    <div class="col-6 d-flex flex-column align-items-center">
-      <h2 class="text-center">Computer grid</h2>
+    <div class="col-2 d-flex flex-column justify-content-between">
+      <section class="d-flex flex-column my-auto">
+        <% if @previous_round.present? %>
+          <%= render 'round_questions', previous_round: @previous_round %>
+        <% else %>
+        <article class="d-flex flex-column justify-content-center align-items-center h-50">
+          <p class="text-center">Choose a characteristic and an adjective to begin</p>
+          <i class="fa-solid fa-circle-arrow-down"></i>
+        </article>
+        <% end %>
+      </section>
+      <% if @previous_round.present? %>
+        <div class="mx-auto" data-controller="toggle-winning-form" data-toggle-winning-form-target="winningFormContainer">
+          <%= button_tag 'Make a guess',
+                          type: 'button',
+                          class: 'btn btn-secondary text-white',
+                          data: { action: 'click->toggle-winning-form#displayWinningForm'}%>
+          <%= render 'winner_form', game: @game, computer_personas: @computer_personas %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-center">
+        <h2>Computer</h2>
+        <%= image_tag 'unknown_persona', class: 'persona-picture-no-hover rounded mx-4' %>
+      </div>
       <%= render "persona_list", all_personas: @all_personas, player_personas: @computer_personas %>
     </div>
   </div>
-  <div class="row mt-4 justify-content-center">
+  <div class="row mt-5 justify-content-center">
     <div class="w-30">
-      <%= simple_form_for [@game, @round], html:
-                                            { data:
-                                              { controller: "update-user-adjective",
-                                                update_user_adjective_url_value: adjectives_game_rounds_path(@game) }
-                                            } do |f| %>
-        <%= f.input :user_feature,
-                    as: :select,
-                    label: "Persona characteristic",
-                    input_html: { data: { action: "change->update-user-adjective#getUserFeature "}},
-                    collection: @personas_characteristics.keys,
-                    include_blank: false,
-                    label_method: lambda {|feature| feature.humanize}%>
-        <%= f.input :user_adjective,
-                    as: :select,
-                    label: "Persona adjective",
-                    input_html: { data: { update_user_adjective_target: "adjectiveList" }},
-                    collection: [],
-                    include_blank: false %>
-        <div class="form-actions d-flex justify-content-center">
-          <%= f.button :submit, "Confirm your choice", class: "btn btn-secondary text-white" %>
-        </div>
-      <% end %>
+      <%= render 'characteristics_form', round: @round,
+                                         game: @game,
+                                         personas_characteristics: @personas_characteristics  %>
     </div>
   </div>
 </div>

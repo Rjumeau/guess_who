@@ -1,6 +1,6 @@
-<section class="row w-80 mt-3">
+<section class="row w-80 mt-3 ml-2">
   <% all_personas.each do |persona| %>
-    <article class="col-3">
+    <article class="col-3 w-21">
       <% if player_personas.include?(persona) %>
         <%= image_tag(persona.picture, class: 'persona-picture-no-hover') %>
       <% else %>

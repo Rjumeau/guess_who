@@ -2,7 +2,7 @@ name;url;gender;hat_color;hair_color;hair_length;eyes;nose;mustache;beard;face_s
 albert;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/albert.png;male;missing;black;missing;bright;small;missing;missing;long;white;missing;white
 alfred;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/alfred.png;male;missing;orange;medium;bright;small;orange;missing;long;missing;missing;white
 anita;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/anita.png;female;missing;yellow;long;bright;small;missing;missing;chubby;missing;missing;white
-bernard;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/bernard.png;male;gray;brown;short;dark;medium;missing;missing;chubby;missing;missing;white
+bernard;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/bernard.png;male;grey;brown;short;dark;medium;missing;missing;chubby;missing;missing;white
 betty;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/betty.png;female;missing;white;medium;bright;small;missing;missing;long;red;missing;white
 bill;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/bill.png;male;missing;orange;missing;dark;small;orange;orange;egg;missing;missing;white
 charles;https://raw.githubusercontent.com/Joz84/guess_who_data/master/pictures/charles.png;male;missing;white;missing;dark;big;white;missing;long;black;missing;white

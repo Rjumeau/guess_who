@@ -4,6 +4,7 @@ class Persona < ApplicationRecord
   before_validation :capitalize_attributes
 
   EXCLUDED_ATTRIBUTES = %w[id created_at updated_at picture name].freeze
+  PLURALS_FEATURES = %w[hair_color hair_length eyes glasses earrings].freeze
 
   def self.sample_computer_persona(user_persona)
     all.reject { |persona| persona == user_persona }.sample
@@ -37,11 +38,11 @@ class Persona < ApplicationRecord
   end
 
   def self.list_feature_adjectives(feature)
-    adjectives_list = pluck(feature).uniq.compact.map(&:humanize)
-    adjectives_list.reject { |adjective| adjective == 'Missing' }
+    pluck(feature).uniq.compact.map(&:humanize)
   end
 
-  def self.find_and_sort_by_ids(personas_ids)
+  def self.find_and_sort_by_ids(personas_data)
+    personas_ids = personas_data.map { |persona_data| persona_data['id'] }
     Persona.where(id: personas_ids).sort_by { |persona| personas_ids.index(persona.id) }
   end
 
