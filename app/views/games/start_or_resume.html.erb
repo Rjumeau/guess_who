@@ -1,0 +1,15 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+      <%= image_tag 'guess_who_logo' %>
+      <div class="d-flex flex-column justify-content-between mt-5"></div>
+        <%= link_to "Start a new game", new_game_path,
+                                        class: 'btn btn-secondary text-white text-large font-size-2 mb-5' %>
+        <% if @last_user_game.present? %>
+          <%= link_to "Resume a game", new_game_round_path(@last_user_game),
+                                      class: 'btn btn-secondary text-white text-large font-size-2' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

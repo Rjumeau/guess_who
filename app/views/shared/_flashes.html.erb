@@ -1,3 +1,20 @@
+<% if flash[:win] %>
+  <div data-controller="alert"
+       data-alert-success-icon-value="success"
+       data-alert-success-title-value="You won !"
+       data-alert-winner-persona-value= <%= flash[:win] %>
+       data-alert-new-game-url-value= <%= new_game_path %>
+       data-alert-success-value= "true">
+  </div>
+<% end %>
+
+<% if flash[:loose] %>
+  <div data-controller="alert"
+       data-alert-error-icon-value="error"
+       data-alert-error-title-value="You loose...">
+  </div>
+<% end %>
+
 <% if notice %>
   <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
     <%= notice %>
@@ -5,6 +22,7 @@
     </button>
   </div>
 <% end %>
+
 <% if alert %>
   <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
     <%= alert %>

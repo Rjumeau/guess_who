@@ -1,12 +1,12 @@
 class Round < ApplicationRecord
   belongs_to :game
 
-  def computer_choice
+  def add_computer_choice
     remaining_user_personas = game.previous_remaining_personas(:remaining_user_personas)
+    return if remaining_user_personas.count <= 1
 
     # Remove last computer adjective from remaining user personnas to avoid same attempt
-    remaining_user_personas = delete_last_computer_attempt(remaining_user_personas) if game.rounds.last
-
+    remaining_user_personas = delete_last_computer_attempt(remaining_user_personas) if game.last_round
     characteristics_frequencies = {}
 
     count_characteristics_frequencies(characteristics_frequencies, remaining_user_personas)
@@ -16,6 +16,14 @@ class Round < ApplicationRecord
     self.computer_feature = best_occurence[0]
     # Find the key of the adjectives subhash with the highest value
     self.computer_adjective = best_occurence[1].key(best_occurence[1].values.max)
+  end
+
+  def computer_has_a_guess?
+    game.previous_remaining_personas(:remaining_user_personas).count == 1
+  end
+
+  def computer_guess
+    game.previous_remaining_personas(:remaining_user_personas).first[:name]
   end
 
   def create_computer_remaining_personas_list(player_attempt)
@@ -52,7 +60,8 @@ class Round < ApplicationRecord
   def delete_last_computer_attempt(remaining_user_personas)
     remaining_user_personas.map do |persona|
       persona.delete_if do |feature, adjective|
-        feature == game.rounds.last.computer_feature && adjective == game.rounds.last.computer_adjective
+        game.previous_attempts.any? { |attempt| attempt.value?(feature) } &&
+          game.previous_attempts.any? { |attempt| attempt.value?(adjective) }
       end
     end
   end
@@ -69,7 +78,7 @@ class Round < ApplicationRecord
   end
 
   def find_best_characteristic_occurence(characteristics_frequencies)
-    characteristics_frequencies.max_by { |_, adjectives| adjectives.values }
+    characteristics_frequencies.max_by { |_, adjectives| adjectives.values.max }
   end
 
   def filter_personas_list(remaining_personas, player, player_attempt)

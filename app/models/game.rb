@@ -24,13 +24,48 @@ class Game < ApplicationRecord
         .send(characteristics["#{opponent}_feature".to_sym]) == characteristics["#{opponent}_adjective".to_sym]
     end
 
-    define_method("good_#{player}_guess?") do |player_guess|
-      send("#{player}_personna").name == player_guess
+    define_method("good_#{player}_persona?") do |player_guess|
+      send("#{player}_persona").name == player_guess
     end
+
+    define_method("last_round_#{player}_feature") do
+      rounds.last&.send("#{player}_feature")
+    end
+
+    define_method("last_round_#{player}_adjective") do
+      rounds.last&.send("#{player}_adjective")
+    end
+
+    define_method("#{player}_persona_picture") do
+      send("#{player}_persona").picture
+    end
+  end
+
+  def self.last_user_game(current_user)
+    where(user: current_user).last
   end
 
   def add_computer_persona
     self.computer_persona = Persona.sample_computer_persona(user_persona)
+  end
+
+  def check_computer_guess(computer_guess)
+    if good_user_persona?(computer_guess)
+      flash[:loose] = "Computer has guess your persona"
+      self.computer_guess = computer_guess
+      computer_win!
+    end
+  end
+
+  def check_user_guess(user_guess)
+    if good_computer_persona?(user_guess)
+      flash[:win] = user_persona_picture
+      self.user_guess = game_params[:user_guess]
+      user_win!
+    else
+      flash[:loose] = "Computer persona was"
+      computer_win!
+    end
   end
 
   def last_round_position
@@ -44,5 +79,13 @@ class Game < ApplicationRecord
 
   def list_last_round_personas(player_personas)
     rounds.last&.send(player_personas)
+  end
+
+  def previous_attempts
+    rounds.map { |round| { computer_feature: round.computer_feature, computer_adjective: round.computer_adjective } }
+  end
+
+  def last_round
+    rounds.last
   end
 end

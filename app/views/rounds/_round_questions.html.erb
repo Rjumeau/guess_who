@@ -4,7 +4,7 @@
     <%= format_question(previous_round.user_feature, previous_round.user_adjective) %>
     <i class="fa-regular <%= previous_round.user_validation ? "fa-circle-check" : "fa-circle-xmark" %>"></i>
   </p>
-  <small>Round <%= previous_round.position %></small>
+  <small><em>Round <%= previous_round.position %></em></small>
 </article>
 <article class="text-end <%= previous_round.computer_validation ? "good-guess" : "bad-guess" %>">
   <small>Computer : </small>
@@ -12,5 +12,5 @@
     <%= format_question(previous_round.computer_feature, previous_round.computer_adjective) %>
     <i class="fa-regular <%= previous_round.computer_validation ? "fa-circle-check" : "fa-circle-xmark" %>"></i>
   </p>
-  <small>Round <%= previous_round.position %></small>
+  <small><em>Round <%= previous_round.position %></em></small>
 </article>
