@@ -48,7 +48,7 @@ export default class extends Controller {
               <br>
               <p>Computer persona was : </p>
               <br>
-              <img src=${this.computerPersonaValue} style= width:100px; height: 100px >
+              <img src=${this.computerPersonaValue} class='alert-persona-picture' >
             </div>`,
       confirmButtonText: 'Try again',
       confirmButtonColor: '#FFC300',

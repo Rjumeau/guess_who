@@ -43,7 +43,7 @@ class Game < ApplicationRecord
     end
 
     define_singleton_method("last_#{player}_persona_picture") do |current_user|
-      where(user: current_user).last&.send("#{player}_persona")&.picture
+      where(user: current_user).last&.send("#{player}_persona_picture")
     end
   end
 

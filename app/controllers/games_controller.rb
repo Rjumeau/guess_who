@@ -30,7 +30,7 @@ class GamesController < ApplicationController
       redirect_to new_game_path, win: "Congratulations"
     else
       @game.winning_computer_game
-      redirect_to new_game_path, loose: "Bad guess !"
+      redirect_to new_game_path, loose: "Bad guess"
     end
   end
 
