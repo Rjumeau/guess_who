@@ -1,17 +1,19 @@
-<% if flash[:win] %>
+<% if win %>
   <div data-controller="alert"
        data-alert-success-icon-value="success"
        data-alert-success-title-value="You won !"
-       data-alert-winner-persona-value= <%= flash[:win] %>
-       data-alert-new-game-url-value= <%= new_game_path %>
+       data-alert-success-text-value= <%= URI.encode_www_form_component(win) %>
+       data-alert-computer-persona-value= <%= @last_computer_persona_picture %>
        data-alert-success-value= "true">
   </div>
 <% end %>
 
-<% if flash[:loose] %>
+<% if loose %>
   <div data-controller="alert"
        data-alert-error-icon-value="error"
-       data-alert-error-title-value="You loose...">
+       data-alert-error-title-value="You loose...",
+       data-alert-computer-persona-value= <%= @last_computer_persona_picture %>
+       data-alert-error-text-value=<%= URI.encode_www_form_component(loose) %>>
   </div>
 <% end %>
 

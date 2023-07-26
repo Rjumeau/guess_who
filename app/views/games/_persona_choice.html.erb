@@ -16,5 +16,6 @@
     <div class="form-actions mt-4">
       <%= f.button :submit, "Start the game", class:"btn btn-secondary w-100 text-white" %>
     </div>
+    <%= f.error_notification message: 'You have to choose a persona' %>
   <% end %>
 </section>

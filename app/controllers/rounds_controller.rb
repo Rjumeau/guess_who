@@ -1,13 +1,9 @@
 class RoundsController < ApplicationController
   before_action :find_game, only: %i[new create]
+  before_action :set_common_variables, only: %i[new create]
 
   def new
     @round = Round.new
-    @all_personas = Persona.all
-    @previous_round = @game.last_round
-    @computer_personas = @game.find_remaining_computer_personas_list(:remaining_computer_personas)
-    @user_personas = @game.find_remaining_user_personas_list(:remaining_user_personas)
-    @personas_characteristics = Persona.list_personas_characteristics
   end
 
   def adjectives
@@ -19,17 +15,15 @@ class RoundsController < ApplicationController
     @round = Round.new(round_params)
     @round.game = @game
     @round.add_computer_choice
-    if @round.computer_has_a_guess?
-      @game.check_computer_guess(@round.computer_guess)
-      redirect_to new_game_path
+    if @round.computer_has_guess?
+      @game.winning_computer_game
+      redirect_to new_game_path, loose: "Computer has guess your persona"
     else
-      @round.position = @game.last_round_position + 1
-      @round.create_computer_remaining_personas_list(round_params)
-      @round.create_user_remaining_personas_list(@round.computer_feature, @round.computer_adjective)
+      @round.create_round_logic(round_params)
       if @round.save
         redirect_to new_game_round_path(@game)
       else
-        render 'new', status: :unprocessable_entity
+        render :new, status: :unprocessable_entity
       end
     end
   end
@@ -38,6 +32,14 @@ class RoundsController < ApplicationController
 
   def find_game
     @game = Game.find(params[:game_id])
+  end
+
+  def set_common_variables
+    @all_personas = Persona.all
+    @previous_round = @game.last_round
+    @computer_personas = @game.find_remaining_computer_personas_list(:remaining_computer_personas)
+    @user_personas = @game.find_remaining_user_personas_list(:remaining_user_personas)
+    @personas_characteristics = Persona.list_personas_characteristics
   end
 
   def round_params

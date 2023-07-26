@@ -4,13 +4,14 @@ import Swal from "sweetalert2"
 // Connects to data-controller="alert"
 export default class extends Controller {
   static values = {
-    newGameUrl: String,
     successIcon: String,
     successTitle: String,
-    winnerPersona: String,
+    successText: String,
+    computerPersona: String,
     success: Boolean,
     errorIcon: String,
-    errorTitle: String
+    errorTitle: String,
+    errorText: String,
   }
   connect() {
     if (this.successValue) {
@@ -25,8 +26,12 @@ export default class extends Controller {
       icon: this.successIconValue,
       title: `<strong>${this.successTitleValue}</strong>`,
       html: `<div>
+              <br>
+              <strong>${this.successTextValue}</strong>
+              <br>
               <p>Computer persona was : </p>
-              <img src=${this.winnerPersonaValue} style= width:100px; height: 100px >
+              <br>
+              <img src=${this.computerPersonaValue} class='alert-persona-picture' >
             </div>`,
       confirmButtonText: 'Start a new game',
       confirmButtonColor: '#FFC300'
@@ -37,6 +42,14 @@ export default class extends Controller {
     Swal.fire({
       icon: this.errorIconValue,
       title: `<strong>${this.errorTitleValue}</strong>`,
+      html: `<div>
+              <br>
+              <p><strong>${this.errorTextValue.replaceAll('+', ' ')}</strong><p>
+              <br>
+              <p>Computer persona was : </p>
+              <br>
+              <img src=${this.computerPersonaValue} style= width:100px; height: 100px >
+            </div>`,
       confirmButtonText: 'Try again',
       confirmButtonColor: '#FFC300',
     })

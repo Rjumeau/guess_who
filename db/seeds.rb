@@ -9,6 +9,7 @@ end
 # ----- Add records -----
 puts "Create Users..."
 User.create!(email: 'romain@guesswho.com', password: 'roadtoteacher')
+User.create!(email: 'test@guesswho.com', password: 'secrette')
 
 puts "Create Personas..."
 # Import and create Personas

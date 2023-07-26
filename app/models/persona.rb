@@ -10,9 +10,6 @@ class Persona < ApplicationRecord
     all.reject { |persona| persona == user_persona }.sample
   end
 
-  def self.computer_selection(personas)
-  end
-
   def self.find_feature_adjectives(feature)
     personas_characteristics = list_personas_characteristics
     personas_characteristics[feature]

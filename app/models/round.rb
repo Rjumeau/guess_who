@@ -1,6 +1,9 @@
 class Round < ApplicationRecord
   belongs_to :game
 
+  validates :user_feature, presence: true
+  validates :user_adjective, presence: true
+
   def add_computer_choice
     remaining_user_personas = game.previous_remaining_personas(:remaining_user_personas)
     return if remaining_user_personas.count <= 1
@@ -13,17 +16,25 @@ class Round < ApplicationRecord
 
     best_occurence = find_best_characteristic_occurence(characteristics_frequencies)
 
-    self.computer_feature = best_occurence[0]
+    self.computer_feature = best_occurence&.first
     # Find the key of the adjectives subhash with the highest value
-    self.computer_adjective = best_occurence[1].key(best_occurence[1].values.max)
+    self.computer_adjective = best_occurence&.second&.key(best_occurence[1].values.max)
   end
 
-  def computer_has_a_guess?
-    game.previous_remaining_personas(:remaining_user_personas).count == 1
+  def computer_has_guess?
+    return if game.previous_remaining_personas(:remaining_user_personas).count > 1
+
+    game.good_user_persona?(computer_guess)
   end
 
   def computer_guess
-    game.previous_remaining_personas(:remaining_user_personas).first[:name]
+    game.previous_remaining_personas(:remaining_user_personas).first["name"]
+  end
+
+  def create_round_logic(round_params)
+    self.position = game.last_round_position + 1
+    create_computer_remaining_personas_list(round_params)
+    create_user_remaining_personas_list(self.computer_feature, self.computer_adjective)
   end
 
   def create_computer_remaining_personas_list(player_attempt)
@@ -69,7 +80,7 @@ class Round < ApplicationRecord
   def count_characteristics_frequencies(characteristics_frequencies, remaining_user_personas)
     remaining_user_personas.each do |persona|
       persona.each do |feature, adjective|
-        unless %w[id picture name created_at updated_at].include?(feature) || adjective == "Missing"
+        unless %w[id picture name created_at updated_at].include?(feature)
           characteristics_frequencies[feature] ||= Hash.new(0)
           characteristics_frequencies[feature][adjective] += 1
         end

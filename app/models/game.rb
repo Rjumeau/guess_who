@@ -5,6 +5,8 @@ class Game < ApplicationRecord
   belongs_to :user_persona, class_name: 'Persona', foreign_key: 'user_persona_id'
   belongs_to :computer_persona, class_name: 'Persona', foreign_key: 'computer_persona_id'
 
+  validates :user_persona_id, presence: true
+
   enum winner: %i[pending user_win computer_win]
 
   %w[user computer].each do |player|
@@ -37,35 +39,26 @@ class Game < ApplicationRecord
     end
 
     define_method("#{player}_persona_picture") do
-      send("#{player}_persona").picture
+      send("#{player}_persona")&.picture
     end
-  end
 
-  def self.last_user_game(current_user)
-    where(user: current_user).last
+    define_singleton_method("last_#{player}_persona_picture") do |current_user|
+      where(user: current_user).last&.send("#{player}_persona")&.picture
+    end
   end
 
   def add_computer_persona
     self.computer_persona = Persona.sample_computer_persona(user_persona)
   end
 
-  def check_computer_guess(computer_guess)
-    if good_user_persona?(computer_guess)
-      flash[:loose] = "Computer has guess your persona"
-      self.computer_guess = computer_guess
-      computer_win!
-    end
+  def winning_computer_game(computer_guess = nil)
+    self.computer_guess = computer_guess if computer_guess
+    computer_win!
   end
 
-  def check_user_guess(user_guess)
-    if good_computer_persona?(user_guess)
-      flash[:win] = user_persona_picture
-      self.user_guess = game_params[:user_guess]
-      user_win!
-    else
-      flash[:loose] = "Computer persona was"
-      computer_win!
-    end
+  def winning_user_game(user_guess)
+    self.user_guess = user_guess
+    user_win!
   end
 
   def last_round_position
@@ -87,5 +80,9 @@ class Game < ApplicationRecord
 
   def last_round
     rounds.last
+  end
+
+  def self.last_user_game(current_user)
+    where(user: current_user, winner: :pending).last
   end
 end

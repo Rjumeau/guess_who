@@ -8,6 +8,7 @@ class GamesController < ApplicationController
   def new
     @game = Game.new
     @all_personas = Persona.all
+    @last_computer_persona_picture = Game.last_computer_persona_picture(current_user)
   end
 
   def create
@@ -17,19 +18,26 @@ class GamesController < ApplicationController
     if @game.save
       redirect_to new_game_round_path(@game)
     else
-      render 'new', status: :unprocessable_entity
+      @all_personas = Persona.all
+      @last_computer_persona_picture = Game.last_computer_persona_picture(current_user)
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    @game.check_user_guess(game_params)
-    redirect_to new_game_path
+    if @game.good_computer_persona?(game_params[:user_guess])
+      @game.winning_user_game(game_params[:user_guess])
+      redirect_to new_game_path, win: "Congratulations"
+    else
+      @game.winning_computer_game
+      redirect_to new_game_path, loose: "Bad guess !"
+    end
   end
 
   private
 
   def find_game
-    Game.find(params[:id])
+    @game = Game.find(params[:id])
   end
 
   def game_params

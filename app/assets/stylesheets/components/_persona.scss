@@ -11,6 +11,11 @@
   @include persona-size
 }
 
+.alert-persona-picture {
+  width: 100px;
+  height: 100px;
+}
+
 .persona-input:checked + img {
   @include border-yellow
 }
