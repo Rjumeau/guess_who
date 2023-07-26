@@ -10,8 +10,19 @@ class Round < ApplicationRecord
 
     # Remove last computer adjective from remaining user personnas to avoid same attempt
     remaining_user_personas = delete_last_computer_attempt(remaining_user_personas) if game.last_round
+
+    # Computer win if he has test all remaining solutions so we reassign remaining_user_personas
+    if all_characteristics_given?(remaining_user_personas)
+      remaining_user_personas = [game.user_persona.to_json]
+      return
+    end
+
     characteristics_frequencies = {}
 
+    find_best_computer_choice(characteristics_frequencies, remaining_user_personas)
+  end
+
+  def find_best_computer_choice(characteristics_frequencies, remaining_user_personas)
     count_characteristics_frequencies(characteristics_frequencies, remaining_user_personas)
 
     best_occurence = find_best_characteristic_occurence(characteristics_frequencies)
@@ -96,5 +107,9 @@ class Round < ApplicationRecord
     remaining_personas.select do |persona|
       persona[player_attempt["#{player}_feature".to_sym]] == player_attempt["#{player}_adjective".to_sym]
     end
+  end
+
+  def all_characteristics_given?(remaining_user_personas)
+    remaining_user_personas.all? { |persona| persona.keys.sort == %w[id picture name created_at updated_at].sort }
   end
 end
